@@ -12,6 +12,7 @@ import {
   nextDeadline,
   currentStageLabel,
   isUrgent,
+  isProjectEnded,
   deadlineBadge,
 } from "@/lib/deadlines";
 
@@ -41,10 +42,10 @@ export default function Home() {
   }
 
   const urgent = projects.filter((p) => {
+    if (isProjectEnded(p)) return false;
     const d = nextDeadline(p);
     return d && isUrgent(d);
   });
-  const rest = projects.filter((p) => !urgent.includes(p));
 
   return (
     <main className="p-8 max-w-[1200px] mx-auto space-y-8">
@@ -96,15 +97,25 @@ export default function Home() {
           <section className="space-y-4">
             <h2 className="text-lg font-semibold">전체 프로젝트</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {rest.map((project) => {
+              {projects.map((project) => {
                 const deadline = nextDeadline(project);
+                const ended = isProjectEnded(project);
                 return (
                   <Link key={project.id} href={`/projects/${project.id}`}>
-                    <Card className="hover:border-primary/50 transition-colors h-full">
+                    <Card
+                      className={cn(
+                        "hover:border-primary/50 transition-colors h-full",
+                        ended && "opacity-50 bg-muted/30"
+                      )}
+                    >
                       <CardContent className="space-y-3">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-bold">{project.name}</h3>
-                          <Badge variant="secondary">{currentStageLabel(project)}</Badge>
+                          <h3 className={cn("font-bold", ended && "text-muted-foreground")}>
+                            {project.name}
+                          </h3>
+                          <Badge variant="secondary">
+                            {ended ? "마감됨" : currentStageLabel(project)}
+                          </Badge>
                         </div>
                         <p
                           className={cn(
@@ -112,7 +123,11 @@ export default function Home() {
                             deadline ? "text-muted-foreground" : "text-muted-foreground/60"
                           )}
                         >
-                          {deadline ? `다음 마감: ${deadline.label} · ${deadline.date}` : "다가올 마감 없음"}
+                          {ended
+                            ? `종료일: ${project.end_date}`
+                            : deadline
+                              ? `다음 마감: ${deadline.label} · ${deadline.date}`
+                              : "다가올 마감 없음"}
                         </p>
                       </CardContent>
                     </Card>

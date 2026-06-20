@@ -18,6 +18,7 @@ export type Task = {
 export type ProjectWithItems = {
   id: string;
   name: string;
+  end_date?: string | null;
   stages: Stage[];
   tasks: Task[];
 };
@@ -82,6 +83,10 @@ export function currentStageLabel(project: ProjectWithItems): string {
   const notStarted = project.stages.find((s) => s.status !== "완료");
   if (notStarted) return notStarted.name;
   return "완료";
+}
+
+export function isProjectEnded(project: ProjectWithItems): boolean {
+  return !!project.end_date && project.end_date < todayStr();
 }
 
 export function isUrgent(item: DeadlineItem): boolean {
