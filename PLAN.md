@@ -104,5 +104,5 @@ Next.js (App Router, TypeScript) · Tailwind CSS · shadcn/ui · Supabase · Ver
 - [ ] 구현: 마감 모아보기
 - [ ] 구현: 캘린더 보기
 - [ ] 구현: 프로젝트 상세
-- [ ] 구현: 새 프로젝트 등록
+- [x] 구현: 새 프로젝트 등록
 - [ ] 배포 확인
