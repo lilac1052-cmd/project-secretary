@@ -1,11 +1,128 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Plus, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  ProjectWithItems,
+  nextDeadline,
+  currentStageLabel,
+  isUrgent,
+  deadlineBadge,
+} from "@/lib/deadlines";
+
 export default function Home() {
+  const [projects, setProjects] = useState<ProjectWithItems[] | null>(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/projects")
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok) {
+          setError(data.error || "불러오지 못했습니다.");
+          return;
+        }
+        setProjects(data.projects);
+      })
+      .catch(() => setError("불러오는 중 오류가 발생했습니다."));
+  }, []);
+
+  if (error) {
+    return <main className="p-8 text-destructive">{error}</main>;
+  }
+
+  if (projects === null) {
+    return <main className="p-8 text-muted-foreground">불러오는 중...</main>;
+  }
+
+  const urgent = projects.filter((p) => {
+    const d = nextDeadline(p);
+    return d && isUrgent(d);
+  });
+  const rest = projects.filter((p) => !urgent.includes(p));
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-3 p-8 text-center">
-      <h1 className="text-3xl font-bold">프로젝트 비서</h1>
-      <p className="text-muted-foreground">
-        여러 프로젝트의 세부구성·핵심 요건·진행과정·마감을 한눈에 보여주는 개인 비서형 대시보드
-      </p>
-      <p className="text-sm text-muted-foreground">곧 만나요</p>
+    <main className="p-8 max-w-[1200px] mx-auto space-y-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">대시보드</h1>
+        <Button asChild>
+          <Link href="/projects/new">
+            <Plus className="size-4" />새 프로젝트
+          </Link>
+        </Button>
+      </div>
+
+      {projects.length === 0 ? (
+        <Card>
+          <CardContent className="py-12 text-center text-muted-foreground">
+            첫 프로젝트를 등록해보세요.
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          {urgent.length > 0 && (
+            <section className="space-y-4">
+              <h2 className="text-lg font-semibold flex items-center gap-2 text-destructive">
+                <AlertTriangle className="size-5" />
+                마감 임박·지연 프로젝트
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {urgent.map((project) => {
+                  const deadline = nextDeadline(project)!;
+                  return (
+                    <Link key={project.id} href={`/projects/${project.id}`}>
+                      <Card className="relative overflow-hidden border-destructive/40 hover:shadow-md transition-shadow h-full">
+                        <div className="absolute top-0 left-0 w-1.5 h-full bg-destructive" />
+                        <CardContent className="space-y-2 pl-6">
+                          <Badge variant="destructive">{deadlineBadge(deadline)}</Badge>
+                          <h3 className="font-bold">{project.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {deadline.label} · {deadline.date}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          <section className="space-y-4">
+            <h2 className="text-lg font-semibold">전체 프로젝트</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {rest.map((project) => {
+                const deadline = nextDeadline(project);
+                return (
+                  <Link key={project.id} href={`/projects/${project.id}`}>
+                    <Card className="hover:border-primary/50 transition-colors h-full">
+                      <CardContent className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold">{project.name}</h3>
+                          <Badge variant="secondary">{currentStageLabel(project)}</Badge>
+                        </div>
+                        <p
+                          className={cn(
+                            "text-sm",
+                            deadline ? "text-muted-foreground" : "text-muted-foreground/60"
+                          )}
+                        >
+                          {deadline ? `다음 마감: ${deadline.label} · ${deadline.date}` : "다가올 마감 없음"}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        </>
+      )}
     </main>
   );
 }
