@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Geist_Mono } from "next/font/google";
+import { Sidebar } from "@/components/sidebar";
 import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
@@ -24,8 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${geistMono.variable} h-full antialiased`}>
-      <body className={`${notoSansKr.className} min-h-full flex flex-col`}>
-        {children}
+      <body className={`${notoSansKr.className} min-h-full flex`}>
+        <Sidebar />
+        <div className="flex-1 min-h-screen overflow-y-auto">{children}</div>
       </body>
     </html>
   );
