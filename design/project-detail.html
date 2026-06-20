@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+
+<html class="light" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>프로젝트 비서 - 브랜딩 리뉴얼 2024</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed-dim": "#98b0ff",
+                    "tertiary-container": "#7df2c8",
+                    "primary": "#3f5baa",
+                    "surface-tint": "#3f5baa",
+                    "secondary-fixed": "#ccfbeb",
+                    "on-surface": "#243157",
+                    "on-surface-variant": "#515e86",
+                    "on-secondary-fixed-variant": "#426c60",
+                    "error": "#ac3434",
+                    "surface-bright": "#faf8ff",
+                    "surface-dim": "#cfd9ff",
+                    "on-error": "#fff7f6",
+                    "on-secondary-fixed": "#244f44",
+                    "on-secondary-container": "#376256",
+                    "on-primary-fixed-variant": "#22408f",
+                    "on-primary-fixed": "#002266",
+                    "tertiary-fixed": "#7df2c8",
+                    "surface-container-low": "#f2f3ff",
+                    "on-tertiary-fixed-variant": "#00644c",
+                    "on-primary": "#faf8ff",
+                    "inverse-on-surface": "#969cb5",
+                    "primary-fixed": "#acbfff",
+                    "tertiary-dim": "#005f47",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#faf8ff",
+                    "inverse-surface": "#070d20",
+                    "secondary-fixed-dim": "#beecdd",
+                    "on-primary-container": "#163785",
+                    "secondary": "#3c675b",
+                    "on-error-container": "#65000b",
+                    "on-secondary": "#e4fff4",
+                    "on-tertiary": "#e5fff2",
+                    "surface-variant": "#dbe1ff",
+                    "secondary-container": "#ccfbeb",
+                    "inverse-primary": "#809aef",
+                    "on-tertiary-fixed": "#004533",
+                    "tertiary-fixed-dim": "#6ee4bb",
+                    "surface-container-highest": "#dbe1ff",
+                    "primary-dim": "#324f9d",
+                    "tertiary": "#006c52",
+                    "surface": "#faf8ff",
+                    "outline": "#6d79a4",
+                    "error-dim": "#70030f",
+                    "secondary-dim": "#305b4f",
+                    "on-background": "#243157",
+                    "on-tertiary-container": "#005a43",
+                    "error-container": "#f56965",
+                    "outline-variant": "#a4b0de",
+                    "surface-container": "#ebedff",
+                    "surface-container-high": "#e3e7ff",
+                    "primary-container": "#acbfff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "sidebar-width": "260px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "container-padding": "32px",
+                    "xs": "4px",
+                    "xl": "48px",
+                    "md": "16px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display-mobile": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #faf8ff;
+            font-family: 'Inter', sans-serif;
+            color: #243157;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sidebar-item-active {
+            background-color: #acbfff;
+            color: #163785;
+        }
+        .glass-card {
+            background: rgba(235, 237, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid #a4b0de;
+        }
+        .stepper-line {
+            width: 2px;
+            background: #a4b0de;
+            position: absolute;
+            top: 24px;
+            bottom: -8px;
+            left: 11px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex">
+<!-- Left Sidebar -->
+<aside class="w-sidebar-width fixed inset-y-0 left-0 bg-surface-container-low border-r border-outline-variant flex flex-col z-40">
+<div class="px-lg py-xl">
+<h1 class="font-headline-lg text-headline-lg font-bold text-primary tracking-tight">프로젝트 비서</h1>
+</div>
+<nav class="flex-1 px-md space-y-xs">
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-label-md">홈</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-xl sidebar-item-active transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+<span class="font-label-md text-label-md">전체 프로젝트</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span class="font-label-md text-label-md">캘린더</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">event_busy</span>
+<span class="font-label-md text-label-md">마감 기한</span>
+</a>
+<div class="pt-lg pb-sm px-md">
+<span class="text-[10px] font-bold uppercase tracking-widest text-outline">내 팀</span>
+</div>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md text-label-md">디자인 스쿼드 A</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">설정</span>
+</a>
+</nav>
+<div class="p-md mt-auto">
+<div class="p-md bg-primary-container rounded-2xl flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold">JD</div>
+<div>
+<p class="font-label-md text-on-primary-container font-bold">정다은</p>
+<p class="text-[10px] text-on-primary-container opacity-70">Senior PM</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="ml-sidebar-width flex-1 min-h-screen p-container-padding max-w-[1400px]">
+<!-- Top App Bar / Header Area -->
+<header class="flex justify-between items-center mb-xl">
+<div class="flex items-center gap-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">브랜딩 리뉴얼 2024</h2>
+<span class="px-md py-xs bg-tertiary-container text-on-tertiary-container rounded-full text-label-md font-bold">진행 중</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="flex items-center gap-sm px-lg py-sm border border-outline-variant text-on-surface font-label-md rounded-xl hover:bg-surface-container transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">share</span>
+                    공유하기
+                </button>
+<button class="flex items-center gap-sm px-lg py-sm bg-primary text-on-primary font-label-md rounded-xl shadow-md hover:bg-primary-dim transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+                    편집
+                </button>
+</div>
+</header>
+<div class="grid grid-cols-10 gap-lg">
+<!-- Left Column: 60% (6 cols) -->
+<div class="col-span-6 space-y-lg">
+<!-- Basic Info Card -->
+<section class="bg-surface-container rounded-[24px] p-lg border border-outline-variant">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">info</span>
+<h3 class="font-headline-md text-headline-md">기본 정보</h3>
+</div>
+<div class="grid grid-cols-2 gap-y-lg gap-x-md">
+<div>
+<p class="text-on-surface-variant font-label-md mb-xs">프로젝트 타입</p>
+<p class="font-body-lg text-on-surface font-semibold">브랜드 아이덴티티 수립</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md mb-xs">파트너사</p>
+<p class="font-body-lg text-on-surface font-semibold">주식회사 메타비전</p>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md mb-xs">진행 기간</p>
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+<p class="font-body-lg text-on-surface font-semibold">2024.01.15 - 2024.06.30</p>
+</div>
+</div>
+<div>
+<p class="text-on-surface-variant font-label-md mb-xs">주요 요구사항</p>
+<div class="flex flex-wrap gap-xs">
+<span class="px-sm py-xs bg-surface-variant text-on-surface-variant rounded-lg text-[12px]">글로벌 확장성</span>
+<span class="px-sm py-xs bg-surface-variant text-on-surface-variant rounded-lg text-[12px]">친환경 이미지</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Documents Card -->
+<section class="bg-surface-container rounded-[24px] p-lg border border-outline-variant">
+<div class="flex justify-between items-center mb-lg">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary">folder_zip</span>
+<h3 class="font-headline-md text-headline-md">문서 링크</h3>
+</div>
+<button class="text-primary text-label-md font-bold flex items-center gap-xs hover:underline">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                            링크 추가
+                        </button>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-md bg-surface rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer border border-outline-variant/30">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-error-container/20 rounded-lg flex items-center justify-center text-error">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-semibold">브랜드 가이드라인_v1.2.pdf</p>
+<p class="text-[12px] text-on-surface-variant">2.4 MB • 2024.03.12 업데이트</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">download</span>
+</div>
+<div class="flex items-center justify-between p-md bg-surface rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer border border-outline-variant/30">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-primary-container/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">link</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-semibold">피그마 디자인 시스템 보드</p>
+<p class="text-[12px] text-on-surface-variant">공유 링크 • 외부 파트너 열람 가능</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">open_in_new</span>
+</div>
+<div class="flex items-center justify-between p-md bg-surface rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer border border-outline-variant/30">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">article</span>
+</div>
+<div>
+<p class="font-body-md text-on-surface font-semibold">시장 조사 결과 보고서.docx</p>
+<p class="text-[12px] text-on-surface-variant">1.1 MB • 2024.02.28 업데이트</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">download</span>
+</div>
+</div>
+</section>
+<!-- Visual Asset / Mood Board Example -->
+<div class="relative w-full h-48 rounded-[24px] overflow-hidden group border border-outline-variant">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="A sophisticated mood board display for a high-end corporate branding project. It features clean minimalist typography, a calming color palette of soft blues and teals, and high-quality lifestyle photography. The scene is illuminated by soft, diffused natural light, creating a professional and inspiring atmosphere in a modern studio setting." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDqHk75YzJma0oZtfBzQ6Ze8cD5RtjK90Aag_dy1fXTv4IRBT0d15shuKxD5TmRbMKeOGkfu5i26xGRZBBO9eyMQVNIImjq2tgdowaCRk2S80i7lKGNfJLKNi_1Oqbe-mcXqrEia3tzG8mjajlWSbpwQgAGy-CLInSXTNNZI0fJqLmXID8Thk-sYu0Nbr_JQUE_9Km-11Jx6ahk6OXi2Dn3bViRqEjLfY17eJNXAGMJScXdAc1v31QioIU2oy-YthOQh0bxwXqY0_Y')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-lg">
+<div class="text-white">
+<p class="font-headline-md">브랜드 무드보드</p>
+<p class="text-body-md opacity-80">최종 컨셉 방향성 승인 완료</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: 40% (4 cols) -->
+<div class="col-span-4 space-y-lg">
+<!-- Progress/Stepper Card -->
+<section class="bg-surface-container rounded-[24px] p-lg border border-outline-variant">
+<h3 class="font-headline-md text-headline-md mb-lg">진행 단계</h3>
+<div class="relative space-y-lg">
+<!-- Step 1 (Completed) -->
+<div class="flex gap-lg relative">
+<div class="stepper-line"></div>
+<div class="z-10 w-6 h-6 rounded-full bg-tertiary flex items-center justify-center text-white ring-4 ring-tertiary/20">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">2024.01.15</p>
+<p class="font-body-lg text-on-surface font-bold">킥오프 미팅</p>
+<p class="text-body-md text-on-surface-variant">프로젝트 팀 구성 및 목표 설정</p>
+</div>
+</div>
+<!-- Step 2 (Active) -->
+<div class="flex gap-lg relative">
+<div class="stepper-line"></div>
+<div class="z-10 w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white ring-4 ring-primary/20 animate-pulse">
+<div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+</div>
+<div>
+<p class="font-label-md text-primary font-bold">2024.03.20 - 현재</p>
+<p class="font-body-lg text-on-surface font-bold">메인 아이덴티티 디자인</p>
+<p class="text-body-md text-on-surface-variant">로고 및 컬러 시스템 확장 작업 진행 중</p>
+</div>
+</div>
+<!-- Step 3 (Upcoming) -->
+<div class="flex gap-lg relative">
+<div class="z-10 w-6 h-6 rounded-full bg-outline-variant flex items-center justify-center text-white">
+<div class="w-2 h-2 bg-surface rounded-full"></div>
+</div>
+<div>
+<p class="font-label-md text-on-surface-variant">2024.05.10 (예정)</p>
+<p class="font-body-lg text-on-surface font-semibold opacity-60">어플리케이션 제작</p>
+<p class="text-body-md text-on-surface-variant opacity-60">명함, 서식류 및 굿즈 가이드라인</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Checklist Card -->
+<section class="bg-surface-container rounded-[24px] p-lg border border-outline-variant">
+<div class="flex items-center gap-sm mb-lg">
+<span class="material-symbols-outlined text-primary">fact_check</span>
+<h3 class="font-headline-md text-headline-md">체크리스트</h3>
+</div>
+<div class="space-y-sm mb-lg" id="checklist">
+<div class="flex items-center gap-md group">
+<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary transition-all cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant line-through flex-1">경쟁사 브랜드 분석 리포트 완료</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span></button>
+</div>
+<div class="flex items-center gap-md group">
+<input checked="" class="w-5 h-5 rounded border-outline text-primary focus:ring-primary transition-all cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant line-through flex-1">1차 시안 이사회 보고</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span></button>
+</div>
+<div class="flex items-center gap-md group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary transition-all cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-on-surface flex-1">로고 시스템 가이드 문서화</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span></button>
+</div>
+<div class="flex items-center gap-md group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary transition-all cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-on-surface flex-1">서체 라이선스 검토 및 확정</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span></button>
+</div>
+</div>
+<div class="relative">
+<input class="w-full pl-md pr-xl py-sm bg-surface-container-low border border-outline-variant rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="새로운 할 일 추가..." type="text"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-primary font-bold"><span class="material-symbols-outlined">add</span></button>
+</div>
+</section>
+<!-- Project Health Mini Card -->
+<div class="bg-primary/10 rounded-[24px] p-lg border border-primary/20 flex items-center justify-between">
+<div>
+<p class="font-label-md text-primary font-bold">프로젝트 건강도</p>
+<p class="font-body-lg text-on-primary-container font-bold">매우 양호</p>
+</div>
+<div class="flex gap-1">
+<div class="w-2 h-6 bg-primary rounded-full"></div>
+<div class="w-2 h-8 bg-primary rounded-full"></div>
+<div class="w-2 h-10 bg-primary rounded-full"></div>
+<div class="w-2 h-6 bg-primary/30 rounded-full"></div>
+<div class="w-2 h-4 bg-primary/30 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions for checklist
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const text = this.nextElementSibling;
+                if (this.checked) {
+                    text.classList.add('line-through', 'text-on-surface-variant');
+                    text.classList.remove('text-on-surface');
+                } else {
+                    text.classList.remove('line-through', 'text-on-surface-variant');
+                    text.classList.add('text-on-surface');
+                }
+            });
+        });
+
+        // Add task logic (simulation)
+        const addTaskInput = document.querySelector('input[type="text"]');
+        const addTaskBtn = addTaskInput.nextElementSibling;
+        const checklist = document.getElementById('checklist');
+
+        function addNewTask() {
+            const val = addTaskInput.value.trim();
+            if (val) {
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-md group';
+                div.innerHTML = `
+                    <input type="checkbox" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary transition-all cursor-pointer">
+                    <span class="font-body-md text-on-surface flex-1">${val}</span>
+                    <button class="opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined text-on-surface-variant text-[20px]">close</span></button>
+                `;
+                checklist.appendChild(div);
+                addTaskInput.value = '';
+                
+                // Re-bind listeners for the new item
+                const newCheckbox = div.querySelector('input');
+                newCheckbox.addEventListener('change', function() {
+                    const text = this.nextElementSibling;
+                    if (this.checked) {
+                        text.classList.add('line-through', 'text-on-surface-variant');
+                        text.classList.remove('text-on-surface');
+                    } else {
+                        text.classList.remove('line-through', 'text-on-surface-variant');
+                        text.classList.add('text-on-surface');
+                    }
+                });
+            }
+        }
+
+        addTaskBtn.addEventListener('click', addNewTask);
+        addTaskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addNewTask();
+        });
+    </script>
+</body></html>
