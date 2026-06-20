@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Sparkles, FileUp } from "lucide-react";
 
 type StageDraft = {
   name: string;
@@ -35,6 +35,9 @@ export default function NewProjectPage() {
   const [stages, setStages] = useState<StageDraft[]>([{ name: "", due_date: "" }]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [autofillFile, setAutofillFile] = useState<File | null>(null);
+  const [autofilling, setAutofilling] = useState(false);
+  const [autofillError, setAutofillError] = useState("");
 
   function addStage() {
     setStages((prev) => [...prev, { name: "", due_date: "" }]);
@@ -48,6 +51,45 @@ export default function NewProjectPage() {
     setStages((prev) =>
       prev.map((s, i) => (i === index ? { ...s, [field]: value } : s))
     );
+  }
+
+  async function handleAutofill() {
+    if (!autofillFile) return;
+    setAutofilling(true);
+    setAutofillError("");
+
+    try {
+      const body = new FormData();
+      body.append("file", autofillFile);
+      const res = await fetch("/api/extract-project", { method: "POST", body });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setAutofillError(data.error || "자동 채우기에 실패했습니다.");
+        setAutofilling(false);
+        return;
+      }
+
+      const ex = data.extracted;
+      if (ex.name) setName(ex.name);
+      if (ex.type) setType(ex.type);
+      if (ex.partner) setPartner(ex.partner);
+      if (ex.start_date) setStartDate(ex.start_date);
+      if (ex.end_date) setEndDate(ex.end_date);
+      if (ex.key_requirements) setKeyRequirements(ex.key_requirements);
+      if (Array.isArray(ex.stages) && ex.stages.length > 0) {
+        setStages(
+          ex.stages.map((s: { name?: string; due_date?: string }) => ({
+            name: s.name || "",
+            due_date: s.due_date || "",
+          }))
+        );
+      }
+    } catch {
+      setAutofillError("자동 채우기 중 오류가 발생했습니다.");
+    } finally {
+      setAutofilling(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -95,6 +137,41 @@ export default function NewProjectPage() {
       <h1 className="text-2xl font-bold">새 프로젝트 등록</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="size-4 text-primary" />
+              문서로 자동 채우기
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              기획 문서 파일을 올리면 이름·유형·파트너·기간·요구사항·단계를 자동으로 채워줘요.
+              채워진 내용은 등록 전에 검토·수정할 수 있어요.
+            </p>
+            <div className="flex items-center gap-3">
+              <label className="flex items-center gap-2 px-4 py-2 border border-dashed border-border rounded-xl cursor-pointer hover:bg-muted/40 transition-colors text-sm">
+                <FileUp className="size-4" />
+                {autofillFile ? autofillFile.name : "파일 선택 (PDF, 이미지 등)"}
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => setAutofillFile(e.target.files?.[0] || null)}
+                />
+              </label>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={!autofillFile || autofilling}
+                onClick={handleAutofill}
+              >
+                {autofilling ? "분석 중..." : "자동 채우기"}
+              </Button>
+            </div>
+            {autofillError && <p className="text-sm text-destructive">{autofillError}</p>}
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>기본 정보</CardTitle>
