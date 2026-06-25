@@ -7,6 +7,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProjectWithItems, allDeadlineItems, DeadlineItem } from "@/lib/deadlines";
+import { KAFP_AREAS } from "@/lib/kafp";
+
+const STATUS_COLOR: Record<string, string> = {
+  계획중: "#70768E",
+  진행중: "#3F5BAA",
+  완료: "#006C52",
+};
+
+type GanttRow = {
+  key: string;
+  projectId: string;
+  projectName: string;
+  stageName: string;
+  status: string;
+  typeColor: string | undefined;
+  startDay: number;
+  endDay: number;
+};
 
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
@@ -61,6 +79,40 @@ export default function CalendarPage() {
     }
     return count;
   }, [itemsByDate, year, month]);
+
+  const daysInMonthForGantt = new Date(year, month + 1, 0).getDate();
+
+  const ganttRows = useMemo(() => {
+    if (!projects) return [] as GanttRow[];
+    const monthStart = toDateStr(year, month, 1);
+    const monthEnd = toDateStr(year, month, daysInMonthForGantt);
+    const rows: GanttRow[] = [];
+
+    for (const project of projects) {
+      for (const stage of project.stages) {
+        const start = stage.start_date || stage.due_date;
+        const end = stage.due_date || stage.start_date;
+        if (!start || !end) continue;
+        if (end < monthStart || start > monthEnd) continue;
+
+        const clampedStart = start < monthStart ? monthStart : start;
+        const clampedEnd = end > monthEnd ? monthEnd : end;
+
+        rows.push({
+          key: stage.id,
+          projectId: project.id,
+          projectName: project.name,
+          stageName: stage.name,
+          status: stage.status,
+          typeColor: KAFP_AREAS.find((a) => a.name === project.type)?.color,
+          startDay: Number(clampedStart.slice(8, 10)),
+          endDay: Number(clampedEnd.slice(8, 10)),
+        });
+      }
+    }
+
+    return rows.sort((a, b) => a.startDay - b.startDay);
+  }, [projects, year, month, daysInMonthForGantt]);
 
   function goToMonth(delta: number) {
     let newMonth = month + delta;
@@ -185,6 +237,72 @@ export default function CalendarPage() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="mt-8">
+            <h2 className="text-lg font-semibold mb-3">진행 일정 흐름</h2>
+            {ganttRows.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                이 달엔 진행 중인 단계 일정이 없습니다.
+              </p>
+            ) : (
+              <Card className="overflow-x-auto p-4">
+                <div
+                  className="grid gap-y-2 min-w-fit"
+                  style={{
+                    gridTemplateColumns: `220px repeat(${daysInMonthForGantt}, minmax(22px, 1fr))`,
+                  }}
+                >
+                  <div />
+                  {Array.from({ length: daysInMonthForGantt }, (_, i) => i + 1).map((d) => (
+                    <div
+                      key={d}
+                      className={cn(
+                        "text-center text-[10px] pb-1 border-b border-border",
+                        toDateStr(year, month, d) === todayStr()
+                          ? "text-primary font-bold"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {d}
+                    </div>
+                  ))}
+
+                  {ganttRows.map((row, i) => (
+                    <div key={row.key} className="contents">
+                      <div
+                        className="text-xs flex items-center gap-1.5 pr-2 truncate"
+                        style={{ gridRow: i + 2, gridColumn: 1 }}
+                      >
+                        {row.typeColor && (
+                          <span
+                            className="size-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: row.typeColor }}
+                          />
+                        )}
+                        <Link
+                          href={`/projects/${row.projectId}`}
+                          className="truncate hover:underline"
+                          title={`${row.projectName} · ${row.stageName}`}
+                        >
+                          {row.projectName} · {row.stageName}
+                        </Link>
+                      </div>
+                      <div
+                        className="h-5 rounded-full flex items-center px-2 text-[10px] text-white truncate"
+                        style={{
+                          gridRow: i + 2,
+                          gridColumn: `${row.startDay + 1} / ${row.endDay + 2}`,
+                          backgroundColor: STATUS_COLOR[row.status] || STATUS_COLOR["계획중"],
+                        }}
+                      >
+                        {row.status}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
           </div>
         </div>
       </div>
