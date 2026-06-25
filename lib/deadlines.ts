@@ -95,6 +95,15 @@ export function isProjectEnded(project: ProjectWithItems): boolean {
   return !!project.end_date && project.end_date < todayStr();
 }
 
+export type ProjectStatus = "기획중" | "진행중" | "완료";
+
+export function projectStatus(project: ProjectWithItems): ProjectStatus {
+  if (isProjectEnded(project)) return "완료";
+  if (project.stages.length === 0) return "기획중";
+  if (project.stages.every((s) => s.status === "완료")) return "완료";
+  return "진행중";
+}
+
 export function isUrgent(item: DeadlineItem): boolean {
   const today = todayStr();
   const diffDays = Math.ceil(
