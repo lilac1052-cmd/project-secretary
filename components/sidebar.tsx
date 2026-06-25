@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, CalendarClock, CalendarDays, PlusCircle, Briefcase } from "lucide-react";
+import { Home, CalendarClock, CalendarDays, PlusCircle } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "홈", icon: Home },
   { href: "/deadlines", label: "마감 기한", icon: CalendarClock },
   { href: "/calendar", label: "캘린더", icon: CalendarDays },
   { href: "/projects/new", label: "새 프로젝트", icon: PlusCircle },
-  { href: "/kafp", label: "KAFP 업무", icon: Briefcase },
 ];
 
 export function Sidebar() {
