@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, CalendarClock, CalendarDays, PlusCircle, Menu, X } from "lucide-react";
+import { Home, CalendarClock, CalendarDays, PlusCircle, Menu, X, LogOut } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/", label: "대시보드", icon: Home },
@@ -39,6 +39,27 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
   );
 }
 
+function LogoutButton() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleLogout}
+      className="flex items-center gap-3 px-4 py-2 mx-2 mb-4 rounded-xl text-sm text-muted-foreground hover:bg-accent"
+    >
+      <LogOut className="size-5" />
+      <span>로그아웃</span>
+    </button>
+  );
+}
+
 export function Sidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -46,6 +67,10 @@ export function Sidebar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  if (pathname === "/login") {
+    return null;
+  }
 
   return (
     <>
@@ -55,6 +80,7 @@ export function Sidebar() {
           <span className="text-xl font-bold text-primary">프로젝트 비서</span>
         </div>
         <NavLinks pathname={pathname} />
+        <LogoutButton />
       </aside>
 
       {/* 모바일: 햄버거 버튼 */}
@@ -87,6 +113,7 @@ export function Sidebar() {
               </button>
             </div>
             <NavLinks pathname={pathname} onNavigate={() => setOpen(false)} />
+            <LogoutButton />
           </aside>
         </div>
       )}
