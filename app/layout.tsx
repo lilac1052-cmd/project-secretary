@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_KR, Geist_Mono } from "next/font/google";
 import { Sidebar } from "@/components/sidebar";
 import { TodayDate } from "@/components/today-date";
@@ -17,6 +17,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "프로젝트 비서",
   description: "여러 프로젝트의 세부구성·핵심 요건·진행과정·마감을 한눈에 보여주는 개인 비서형 대시보드",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "프로젝트 비서",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#3F5BAA",
 };
 
 export default function RootLayout({

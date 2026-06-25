@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifySessionValue, SESSION_COOKIE_NAME } from "@/lib/auth";
 
+const PUBLIC_PATHS = [
+  "/login",
+  "/api/login",
+  "/manifest.webmanifest",
+  "/apple-icon.png",
+  "/icon-192x192.png",
+  "/icon-512x512.png",
+  "/icon.svg",
+];
+
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname === "/login" || pathname === "/api/login") {
+  if (PUBLIC_PATHS.includes(pathname)) {
     return NextResponse.next();
   }
 
