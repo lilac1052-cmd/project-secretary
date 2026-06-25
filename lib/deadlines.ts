@@ -32,6 +32,7 @@ export type DeadlineItem = {
   projectType: string | null;
   kind: "stage" | "task";
   label: string;
+  startDate: string | null;
   date: string;
   overdue: boolean;
 };
@@ -52,6 +53,7 @@ export function projectDeadlineItems(project: ProjectWithItems): DeadlineItem[] 
       projectType: project.type ?? null,
       kind: "stage",
       label: stage.name,
+      startDate: stage.start_date ?? null,
       date: stage.due_date,
       overdue: stage.due_date < today,
     });
@@ -65,6 +67,7 @@ export function projectDeadlineItems(project: ProjectWithItems): DeadlineItem[] 
       projectType: project.type ?? null,
       kind: "task",
       label: task.title,
+      startDate: null,
       date: task.due_date,
       overdue: task.due_date < today,
     });

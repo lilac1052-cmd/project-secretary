@@ -100,6 +100,7 @@ export default function DeadlinesPage() {
                     <TableHead>프로젝트명</TableHead>
                     <TableHead>유형</TableHead>
                     <TableHead>항목</TableHead>
+                    <TableHead>시작일</TableHead>
                     <TableHead>마감 일자</TableHead>
                     <TableHead>상태</TableHead>
                   </TableRow>
@@ -130,6 +131,9 @@ export default function DeadlinesPage() {
                         )}
                       </TableCell>
                       <TableCell>{item.label}</TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {item.startDate || "—"}
+                      </TableCell>
                       <TableCell className="text-muted-foreground">{item.date}</TableCell>
                       <TableCell>
                         <Badge variant={item.overdue ? "destructive" : "secondary"}>
