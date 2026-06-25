@@ -15,13 +15,14 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, Plus, Sparkles, FileUp } from "lucide-react";
+import { KAFP_AREAS } from "@/lib/kafp";
 
 type StageDraft = {
   name: string;
   due_date: string;
 };
 
-const PROJECT_TYPES = ["UI/UX 디자인", "브랜딩", "마케팅 캠페인", "콘텐츠 기획", "기타"];
+const PROJECT_TYPES = KAFP_AREAS.map((a) => a.name);
 
 export default function NewProjectPage() {
   const router = useRouter();

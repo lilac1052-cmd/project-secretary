@@ -18,6 +18,7 @@ export type Task = {
 export type ProjectWithItems = {
   id: string;
   name: string;
+  type?: string | null;
   end_date?: string | null;
   stages: Stage[];
   tasks: Task[];

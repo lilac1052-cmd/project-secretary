@@ -15,6 +15,7 @@ import {
   isProjectEnded,
   deadlineBadge,
 } from "@/lib/deadlines";
+import { KAFP_AREAS } from "@/lib/kafp";
 
 export default function Home() {
   const [projects, setProjects] = useState<ProjectWithItems[] | null>(null);
@@ -46,6 +47,21 @@ export default function Home() {
     const d = nextDeadline(p);
     return d && isUrgent(d);
   });
+
+  const groups = [
+    ...KAFP_AREAS.map((area) => ({
+      key: area.id,
+      label: area.name,
+      color: area.color,
+      items: projects.filter((p) => p.type === area.name),
+    })),
+    {
+      key: "uncategorized",
+      label: "미분류",
+      color: undefined,
+      items: projects.filter((p) => !KAFP_AREAS.some((a) => a.name === p.type)),
+    },
+  ].filter((g) => g.items.length > 0);
 
   return (
     <main className="p-8 max-w-[1200px] mx-auto space-y-8">
@@ -94,47 +110,61 @@ export default function Home() {
             </section>
           )}
 
-          <section className="space-y-4">
+          <section className="space-y-8">
             <h2 className="text-lg font-semibold">전체 프로젝트</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {projects.map((project) => {
-                const deadline = nextDeadline(project);
-                const ended = isProjectEnded(project);
-                return (
-                  <Link key={project.id} href={`/projects/${project.id}`}>
-                    <Card
-                      className={cn(
-                        "hover:border-primary/50 transition-colors h-full",
-                        ended && "opacity-50 bg-muted/30"
-                      )}
-                    >
-                      <CardContent className="space-y-3">
-                        <div className="flex items-center justify-between">
-                          <h3 className={cn("font-bold", ended && "text-muted-foreground")}>
-                            {project.name}
-                          </h3>
-                          <Badge variant="secondary">
-                            {ended ? "마감됨" : currentStageLabel(project)}
-                          </Badge>
-                        </div>
-                        <p
+            {groups.map((group) => (
+              <div key={group.key} className="space-y-4">
+                <h3 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                  {group.color && (
+                    <span
+                      className="size-2.5 rounded-full shrink-0"
+                      style={{ backgroundColor: group.color }}
+                    />
+                  )}
+                  {group.label}
+                  <span className="text-muted-foreground/60">({group.items.length})</span>
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {group.items.map((project) => {
+                    const deadline = nextDeadline(project);
+                    const ended = isProjectEnded(project);
+                    return (
+                      <Link key={project.id} href={`/projects/${project.id}`}>
+                        <Card
                           className={cn(
-                            "text-sm",
-                            deadline ? "text-muted-foreground" : "text-muted-foreground/60"
+                            "hover:border-primary/50 transition-colors h-full",
+                            ended && "opacity-50 bg-muted/30"
                           )}
                         >
-                          {ended
-                            ? `종료일: ${project.end_date}`
-                            : deadline
-                              ? `다음 마감: ${deadline.label} · ${deadline.date}`
-                              : "다가올 마감 없음"}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
-            </div>
+                          <CardContent className="space-y-3">
+                            <div className="flex items-center justify-between">
+                              <h3 className={cn("font-bold", ended && "text-muted-foreground")}>
+                                {project.name}
+                              </h3>
+                              <Badge variant="secondary">
+                                {ended ? "마감됨" : currentStageLabel(project)}
+                              </Badge>
+                            </div>
+                            <p
+                              className={cn(
+                                "text-sm",
+                                deadline ? "text-muted-foreground" : "text-muted-foreground/60"
+                              )}
+                            >
+                              {ended
+                                ? `종료일: ${project.end_date}`
+                                : deadline
+                                  ? `다음 마감: ${deadline.label} · ${deadline.date}`
+                                  : "다가올 마감 없음"}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
           </section>
         </>
       )}
