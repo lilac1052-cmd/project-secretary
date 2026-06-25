@@ -160,9 +160,9 @@ export default function CalendarPage() {
   const selectedItems = itemsByDate.get(selectedDate) || [];
 
   return (
-    <main className="flex h-screen overflow-hidden">
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="p-8 pb-4 flex items-center gap-4 shrink-0">
+    <main className="flex flex-col md:flex-row md:h-screen md:overflow-hidden">
+      <div className="flex flex-col md:flex-1 md:overflow-hidden">
+        <div className="pt-16 px-4 pb-4 md:p-8 md:pb-4 flex flex-wrap items-center gap-4 shrink-0">
           <h1 className="text-2xl font-bold">
             {year}년 {month + 1}월
           </h1>
@@ -179,7 +179,7 @@ export default function CalendarPage() {
           </Button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-8 pb-8">
+        <div className="px-4 pb-8 md:px-8 md:flex-1 md:overflow-y-auto">
           {monthItemCount === 0 && (
             <p className="text-sm text-muted-foreground mb-3">이 달엔 마감이 없습니다.</p>
           )}
@@ -205,7 +205,7 @@ export default function CalendarPage() {
                   key={i}
                   onClick={() => cell.inMonth && setSelectedDate(cell.dateStr)}
                   className={cn(
-                    "p-2 border-b border-r border-border h-[110px] transition-colors overflow-hidden",
+                    "p-1 md:p-2 border-b border-r border-border h-[70px] md:h-[110px] transition-colors overflow-hidden",
                     cell.inMonth ? "cursor-pointer hover:bg-muted/40" : "bg-muted/20 opacity-40",
                     isSelected && cell.inMonth && "bg-primary/10 ring-2 ring-primary"
                   )}
@@ -307,12 +307,12 @@ export default function CalendarPage() {
         </div>
       </div>
 
-      <aside className="w-[340px] bg-muted/20 border-l border-border flex flex-col shrink-0">
-        <div className="p-6 border-b border-border">
+      <aside className="w-full md:w-[340px] bg-muted/20 border-t md:border-t-0 md:border-l border-border flex flex-col shrink-0">
+        <div className="p-4 md:p-6 border-b border-border">
           <h2 className="font-semibold">선택한 날짜 일정</h2>
           <p className="text-sm text-muted-foreground mt-1">{selectedDate}</p>
         </div>
-        <div className="flex-1 overflow-y-auto p-6 space-y-3">
+        <div className="md:flex-1 md:overflow-y-auto p-4 md:p-6 space-y-3">
           {selectedItems.length === 0 ? (
             <p className="text-sm text-muted-foreground">이 날짜엔 마감이 없습니다.</p>
           ) : (

@@ -150,7 +150,7 @@ export default function NewProjectPage() {
   }
 
   return (
-    <main className="p-8 max-w-[1000px] mx-auto space-y-6">
+    <main className="pt-16 px-4 pb-8 md:p-8 max-w-[1000px] mx-auto space-y-6">
       <h1 className="text-2xl font-bold">새 프로젝트 등록</h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -193,8 +193,8 @@ export default function NewProjectPage() {
           <CardHeader>
             <CardTitle>기본 정보</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 space-y-2">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="sm:col-span-2 space-y-2">
               <Label htmlFor="name">프로젝트 명</Label>
               <Input
                 id="name"
@@ -245,7 +245,7 @@ export default function NewProjectPage() {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
-            <div className="col-span-2 space-y-2">
+            <div className="sm:col-span-2 space-y-2">
               <Label htmlFor="key_requirements">주요 요구사항 및 목표</Label>
               <Textarea
                 id="key_requirements"

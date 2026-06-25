@@ -135,7 +135,7 @@ export default function ProjectDetailPage({
   }
 
   return (
-    <main className="p-8 max-w-[1400px] space-y-6">
+    <main className="pt-16 px-4 pb-8 md:p-8 max-w-[1400px] space-y-6">
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">{project.name}</h1>
       </div>
@@ -146,7 +146,7 @@ export default function ProjectDetailPage({
             <CardHeader>
               <CardTitle>기본 정보</CardTitle>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-y-6 gap-x-4">
+            <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-4">
               <div>
                 <p className="text-sm text-muted-foreground mb-1">프로젝트 유형</p>
                 <p className="font-semibold">{project.type || "-"}</p>
@@ -155,13 +155,13 @@ export default function ProjectDetailPage({
                 <p className="text-sm text-muted-foreground mb-1">파트너사</p>
                 <p className="font-semibold">{project.partner || "-"}</p>
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <p className="text-sm text-muted-foreground mb-1">진행 기간</p>
                 <p className="font-semibold">
                   {project.start_date || "-"} ~ {project.end_date || "-"}
                 </p>
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <p className="text-sm text-muted-foreground mb-1">주요 요구사항</p>
                 <p className="whitespace-pre-wrap">{project.key_requirements || "-"}</p>
               </div>

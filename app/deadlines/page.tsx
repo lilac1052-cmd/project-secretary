@@ -50,7 +50,7 @@ export default function DeadlinesPage() {
   const upcoming = items.filter((i) => !i.overdue);
 
   return (
-    <main className="p-8 max-w-[1400px] mx-auto space-y-8">
+    <main className="pt-16 px-4 pb-8 md:p-8 max-w-[1400px] mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold">마감 모아보기</h1>
         <p className="text-muted-foreground mt-1">

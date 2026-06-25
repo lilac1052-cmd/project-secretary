@@ -65,7 +65,7 @@ export default function Home() {
   }));
 
   return (
-    <main className="p-8 max-w-[1200px] mx-auto space-y-8">
+    <main className="pt-16 px-4 pb-8 md:p-8 max-w-[1200px] mx-auto space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">대시보드</h1>
         <Button asChild>
