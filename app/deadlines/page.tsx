@@ -14,6 +14,11 @@ import {
 } from "@/components/ui/table";
 import { AlertTriangle } from "lucide-react";
 import { ProjectWithItems, allDeadlineItems, deadlineBadge } from "@/lib/deadlines";
+import { KAFP_AREAS } from "@/lib/kafp";
+
+function areaColor(type: string | null) {
+  return KAFP_AREAS.find((a) => a.name === type)?.color;
+}
 
 export default function DeadlinesPage() {
   const [projects, setProjects] = useState<ProjectWithItems[] | null>(null);
@@ -93,6 +98,7 @@ export default function DeadlinesPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>프로젝트명</TableHead>
+                    <TableHead>유형</TableHead>
                     <TableHead>항목</TableHead>
                     <TableHead>마감 일자</TableHead>
                     <TableHead>상태</TableHead>
@@ -109,6 +115,19 @@ export default function DeadlinesPage() {
                     >
                       <TableCell className="font-semibold text-primary">
                         {item.projectName}
+                      </TableCell>
+                      <TableCell>
+                        {item.projectType ? (
+                          <span className="inline-flex items-center gap-1.5 text-sm">
+                            <span
+                              className="size-2 rounded-full shrink-0"
+                              style={{ backgroundColor: areaColor(item.projectType) || "var(--muted-foreground)" }}
+                            />
+                            {item.projectType}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground">—</span>
+                        )}
                       </TableCell>
                       <TableCell>{item.label}</TableCell>
                       <TableCell className="text-muted-foreground">{item.date}</TableCell>

@@ -27,6 +27,7 @@ export type ProjectWithItems = {
 export type DeadlineItem = {
   projectId: string;
   projectName: string;
+  projectType: string | null;
   kind: "stage" | "task";
   label: string;
   date: string;
@@ -46,6 +47,7 @@ export function projectDeadlineItems(project: ProjectWithItems): DeadlineItem[] 
     items.push({
       projectId: project.id,
       projectName: project.name,
+      projectType: project.type ?? null,
       kind: "stage",
       label: stage.name,
       date: stage.due_date,
@@ -58,6 +60,7 @@ export function projectDeadlineItems(project: ProjectWithItems): DeadlineItem[] 
     items.push({
       projectId: project.id,
       projectName: project.name,
+      projectType: project.type ?? null,
       kind: "task",
       label: task.title,
       date: task.due_date,
