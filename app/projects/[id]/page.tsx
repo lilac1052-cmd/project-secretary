@@ -23,7 +23,9 @@ type Project = {
 type Stage = {
   id: string;
   name: string;
+  description: string | null;
   status: string;
+  start_date: string | null;
   due_date: string | null;
   order_index: number;
 };
@@ -218,9 +220,14 @@ export default function ProjectDetailPage({
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">
-                          {stage.due_date || "마감일 없음"}
+                          {stage.start_date || "시작일 없음"} ~ {stage.due_date || "마감일 없음"}
                         </p>
                         <p className="font-bold group-hover:underline">{stage.name}</p>
+                        {stage.description && (
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {stage.description}
+                          </p>
+                        )}
                         <Badge variant="secondary" className="mt-1">
                           {stage.status}
                         </Badge>

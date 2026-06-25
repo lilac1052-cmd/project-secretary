@@ -19,6 +19,8 @@ import { KAFP_AREAS } from "@/lib/kafp";
 
 type StageDraft = {
   name: string;
+  description: string;
+  start_date: string;
   due_date: string;
 };
 
@@ -33,7 +35,9 @@ export default function NewProjectPage() {
   const [endDate, setEndDate] = useState("");
   const [keyRequirements, setKeyRequirements] = useState("");
   const [docLink, setDocLink] = useState("");
-  const [stages, setStages] = useState<StageDraft[]>([{ name: "", due_date: "" }]);
+  const [stages, setStages] = useState<StageDraft[]>([
+    { name: "", description: "", start_date: "", due_date: "" },
+  ]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [autofillFile, setAutofillFile] = useState<File | null>(null);
@@ -41,7 +45,10 @@ export default function NewProjectPage() {
   const [autofillError, setAutofillError] = useState("");
 
   function addStage() {
-    setStages((prev) => [...prev, { name: "", due_date: "" }]);
+    setStages((prev) => [
+      ...prev,
+      { name: "", description: "", start_date: "", due_date: "" },
+    ]);
   }
 
   function removeStage(index: number) {
@@ -80,10 +87,19 @@ export default function NewProjectPage() {
       if (ex.key_requirements) setKeyRequirements(ex.key_requirements);
       if (Array.isArray(ex.stages) && ex.stages.length > 0) {
         setStages(
-          ex.stages.map((s: { name?: string; due_date?: string }) => ({
-            name: s.name || "",
-            due_date: s.due_date || "",
-          }))
+          ex.stages.map(
+            (s: {
+              name?: string;
+              description?: string;
+              start_date?: string;
+              due_date?: string;
+            }) => ({
+              name: s.name || "",
+              description: s.description || "",
+              start_date: s.start_date || "",
+              due_date: s.due_date || "",
+            })
+          )
         );
       }
     } catch {
@@ -269,34 +285,47 @@ export default function NewProjectPage() {
           </CardHeader>
           <CardContent className="space-y-3">
             {stages.map((stage, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-3 bg-muted/40 rounded-xl"
-              >
-                <div className="size-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
-                  {index + 1}
+              <div key={index} className="space-y-2 p-3 bg-muted/40 rounded-xl">
+                <div className="flex items-center gap-3">
+                  <div className="size-8 rounded-full bg-primary/20 text-primary flex items-center justify-center font-bold text-sm shrink-0">
+                    {index + 1}
+                  </div>
+                  <Input
+                    placeholder="단계 이름"
+                    value={stage.name}
+                    onChange={(e) => updateStage(index, "name", e.target.value)}
+                    className="flex-1"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeStage(index)}
+                    className="text-destructive shrink-0"
+                  >
+                    <Trash2 className="size-4" />
+                  </Button>
                 </div>
                 <Input
-                  placeholder="단계 이름"
-                  value={stage.name}
-                  onChange={(e) => updateStage(index, "name", e.target.value)}
-                  className="flex-1"
+                  placeholder="세부내용"
+                  value={stage.description}
+                  onChange={(e) => updateStage(index, "description", e.target.value)}
+                  className="ml-11"
                 />
-                <Input
-                  type="date"
-                  value={stage.due_date}
-                  onChange={(e) => updateStage(index, "due_date", e.target.value)}
-                  className="w-44"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeStage(index)}
-                  className="text-destructive shrink-0"
-                >
-                  <Trash2 className="size-4" />
-                </Button>
+                <div className="flex items-center gap-3 ml-11">
+                  <Input
+                    type="date"
+                    value={stage.start_date}
+                    onChange={(e) => updateStage(index, "start_date", e.target.value)}
+                    className="flex-1"
+                  />
+                  <Input
+                    type="date"
+                    value={stage.due_date}
+                    onChange={(e) => updateStage(index, "due_date", e.target.value)}
+                    className="flex-1"
+                  />
+                </div>
               </div>
             ))}
             {stages.length === 0 && (

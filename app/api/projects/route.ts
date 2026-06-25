@@ -67,12 +67,19 @@ export async function POST(req: NextRequest) {
 
   if (validStages.length > 0) {
     const { error: stagesError } = await supabaseAdmin.from("stages").insert(
-      validStages.map((s: { name: string; due_date?: string }, index: number) => ({
-        project_id: project.id,
-        name: s.name,
-        due_date: s.due_date || null,
-        order_index: index,
-      }))
+      validStages.map(
+        (
+          s: { name: string; description?: string; start_date?: string; due_date?: string },
+          index: number
+        ) => ({
+          project_id: project.id,
+          name: s.name,
+          description: s.description || null,
+          start_date: s.start_date || null,
+          due_date: s.due_date || null,
+          order_index: index,
+        })
+      )
     );
 
     if (stagesError) {

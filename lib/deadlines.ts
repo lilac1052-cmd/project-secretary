@@ -2,7 +2,9 @@ export type Stage = {
   id: string;
   project_id: string;
   name: string;
+  description?: string | null;
   status: string;
+  start_date?: string | null;
   due_date: string | null;
   order_index: number;
 };
