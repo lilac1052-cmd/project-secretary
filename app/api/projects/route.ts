@@ -1,29 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 
+export const maxDuration = 30;
+
 export async function GET() {
-  const { data: projects, error: projectsError } = await supabaseAdmin
-    .from("projects")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const [
+    { data: projects, error: projectsError },
+    { data: stages, error: stagesError },
+    { data: tasks, error: tasksError },
+  ] = await Promise.all([
+    supabaseAdmin.from("projects").select("*").order("created_at", { ascending: false }),
+    supabaseAdmin.from("stages").select("*").order("order_index", { ascending: true }),
+    supabaseAdmin.from("tasks").select("*"),
+  ]);
 
   if (projectsError) {
     return NextResponse.json({ error: projectsError.message }, { status: 500 });
   }
-
-  const { data: stages, error: stagesError } = await supabaseAdmin
-    .from("stages")
-    .select("*")
-    .order("order_index", { ascending: true });
-
   if (stagesError) {
     return NextResponse.json({ error: stagesError.message }, { status: 500 });
   }
-
-  const { data: tasks, error: tasksError } = await supabaseAdmin
-    .from("tasks")
-    .select("*");
-
   if (tasksError) {
     return NextResponse.json({ error: tasksError.message }, { status: 500 });
   }
